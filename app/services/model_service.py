@@ -55,15 +55,13 @@ class ModelService(AbstractModelService):
         name = model_name or settings.model_name
         logger.info("Loading tokenizer and model: %s", name)
         tokenizer: PreTrainedTokenizer = AutoTokenizer.from_pretrained(  # type: ignore[assignment]
-            name, cache_dir=settings.hf_home
+            name
         )
         # GPT-2 has no pad token; use eos to silence generation warnings.
         if tokenizer.pad_token is None:
             tokenizer.pad_token = tokenizer.eos_token
 
-        model: PreTrainedModel = AutoModelForCausalLM.from_pretrained(
-            name, cache_dir=settings.hf_home
-        )
+        model: PreTrainedModel = AutoModelForCausalLM.from_pretrained(name)
         model.eval()  # type: ignore[no-untyped-call]
 
         self._model_name = name
