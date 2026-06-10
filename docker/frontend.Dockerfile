@@ -13,7 +13,10 @@ RUN npm run build
 FROM nginx:alpine AS runtime
 
 COPY --from=builder /app/dist /usr/share/nginx/html
-COPY frontend/nginx.conf /etc/nginx/conf.d/default.conf
+# Store as template; envsubst substitutes PORT and API_URL at container start
+COPY frontend/nginx.conf /etc/nginx/templates/default.conf.template
 
 EXPOSE 80
+
+# nginx image automatically runs envsubst on *.template files
 CMD ["nginx", "-g", "daemon off;"]
