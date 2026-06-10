@@ -53,5 +53,4 @@ frontend/.vite/
 .DS_Store
 Thumbs.db
 
-# Poetry
-poetry.lock
+# Poetry (lock file intentionally committed for reproducible builds)

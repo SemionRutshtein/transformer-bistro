@@ -15,15 +15,15 @@ RUN pip install --no-cache-dir "poetry==${POETRY_VERSION}"
 WORKDIR /app
 COPY pyproject.toml poetry.lock* ./
 
-# Install CPU torch explicitly before poetry to avoid the full CUDA wheel
-RUN pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu
-
-# Install remaining deps (torch already present, poetry will skip it)
+# Install main deps via poetry
 RUN poetry install --only main --no-root
+
+# torch is not in poetry.lock (explicit custom source); install directly into the venv
+RUN .venv/bin/pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu
 
 # Bake the model weights into the image for offline / fast cold start
 COPY app/ ./app/
-RUN python -c "\
+RUN .venv/bin/python -c "\
 from transformers import AutoModelForCausalLM, AutoTokenizer; \
 AutoTokenizer.from_pretrained('${MODEL_NAME}'); \
 AutoModelForCausalLM.from_pretrained('${MODEL_NAME}')"
