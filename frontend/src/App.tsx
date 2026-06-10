@@ -1,9 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, Component, type ReactNode } from "react";
 import { EncodePanel } from "./components/EncodePanel";
 import { DecodePanel } from "./components/DecodePanel";
 import { GeneratePanel } from "./components/GeneratePanel";
 import { HistoryPanel } from "./components/HistoryPanel";
 import { SparklesCore } from "./components/ui/SparklesCore";
+
+class SparklesErrorBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+  state = { failed: false };
+  static getDerivedStateFromError() { return { failed: true }; }
+  render() { return this.state.failed ? null : this.props.children; }
+}
 
 type Tab = "generate" | "encode" | "decode" | "history";
 type ApiStatus = "checking" | "ready" | "error";
@@ -42,16 +48,18 @@ export default function App() {
     return (
       <div className="loading-screen">
         <div className="loading-sparkles">
-          <SparklesCore
-            id="loading-sparkles"
-            background="transparent"
-            minSize={0.6}
-            maxSize={1.4}
-            particleDensity={100}
-            className="w-full h-full"
-            particleColor="#818cf8"
-            speed={1}
-          />
+          <SparklesErrorBoundary>
+            <SparklesCore
+              id="loading-sparkles"
+              background="transparent"
+              minSize={0.6}
+              maxSize={1.4}
+              particleDensity={100}
+              className="w-full h-full"
+              particleColor="#818cf8"
+              speed={1}
+            />
+          </SparklesErrorBoundary>
         </div>
         <div className="loading-content">
           <div className="loading-logo">🍽</div>
@@ -59,16 +67,18 @@ export default function App() {
           <div className="loading-sparkles-line">
             <div className="loading-gradient-left" />
             <div className="loading-gradient-right" />
-            <SparklesCore
-              id="loading-line-sparkles"
-              background="transparent"
-              minSize={0.4}
-              maxSize={1}
-              particleDensity={1200}
-              className="w-full h-full"
-              particleColor="#818cf8"
-              speed={2}
-            />
+            <SparklesErrorBoundary>
+              <SparklesCore
+                id="loading-line-sparkles"
+                background="transparent"
+                minSize={0.4}
+                maxSize={1}
+                particleDensity={1200}
+                className="w-full h-full"
+                particleColor="#818cf8"
+                speed={2}
+              />
+            </SparklesErrorBoundary>
             <div className="loading-mask" />
           </div>
           <div className="loading-status">
@@ -86,16 +96,18 @@ export default function App() {
       {/* Header with subtle sparkles */}
       <header className="header">
         <div className="header-sparkles-bg">
-          <SparklesCore
-            id="header-sparkles"
-            background="transparent"
-            minSize={0.3}
-            maxSize={0.9}
-            particleDensity={30}
-            className="w-full h-full"
-            particleColor="#818cf8"
-            speed={0.8}
-          />
+          <SparklesErrorBoundary>
+            <SparklesCore
+              id="header-sparkles"
+              background="transparent"
+              minSize={0.3}
+              maxSize={0.9}
+              particleDensity={30}
+              className="w-full h-full"
+              particleColor="#818cf8"
+              speed={0.8}
+            />
+          </SparklesErrorBoundary>
         </div>
 
         <div className="header-left">
