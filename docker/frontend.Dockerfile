@@ -12,6 +12,9 @@ RUN npm run build
 # ── serve stage ───────────────────────────────────────────────────────────────
 FROM nginx:alpine AS runtime
 
+ENV PORT=80 \
+    API_URL=http://api:8000
+
 COPY --from=builder /app/dist /usr/share/nginx/html
 # Store as template; envsubst substitutes PORT and API_URL at container start
 COPY frontend/nginx.conf /etc/nginx/templates/default.conf.template

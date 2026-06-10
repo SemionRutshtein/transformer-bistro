@@ -36,7 +36,7 @@ ENV HF_HOME=/models \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PATH="/app/.venv/bin:$PATH" \
-    # Force transformers to use the baked model — no HF Hub calls at runtime
+    HF_HUB_OFFLINE=1 \
     TRANSFORMERS_OFFLINE=1 \
     HF_DATASETS_OFFLINE=1
 
