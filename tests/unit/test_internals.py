@@ -1,4 +1,4 @@
-"""Extra tests targeting uncovered branches to meet 85% coverage threshold."""
+"""Unit tests for internal services, DB layer, and error handlers."""
 
 import asyncio
 from unittest.mock import AsyncMock, MagicMock, patch

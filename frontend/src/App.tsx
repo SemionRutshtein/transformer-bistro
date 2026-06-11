@@ -29,7 +29,7 @@ export default function App() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch("/api/v1/readyz");
+        const res = await fetch("/readyz");
         if (res.ok) {
           const data = (await res.json()) as { model?: string };
           setModelName(data.model ?? "");

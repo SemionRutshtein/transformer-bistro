@@ -14,7 +14,7 @@ cov:
 	@echo "Coverage report: htmlcov/index.html"
 
 slow:
-	poetry run pytest -m slow -v
+	poetry run pytest -m slow -v --cov=app --cov-report=term-missing
 
 lint:
 	poetry run ruff check app tests
