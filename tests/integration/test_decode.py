@@ -24,6 +24,13 @@ def test_decode_out_of_vocab(client: TestClient) -> None:
     assert resp.json()["error"]["type"] == "invalid_token"
 
 
+def test_decode_skip_special_tokens_false(client: TestClient) -> None:
+    resp = client.post(
+        "/api/v1/decode", json={"token_ids": [1, 2, 3], "skip_special_tokens": False}
+    )
+    assert resp.status_code == 200
+
+
 def test_decode_non_int_ids(client: TestClient) -> None:
     resp = client.post("/api/v1/decode", json={"token_ids": ["abc"]})
     assert resp.status_code == 422
